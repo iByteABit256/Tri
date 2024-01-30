@@ -2,7 +2,6 @@ package todo
 
 import (
         "encoding/json"
-        "fmt"
         "io/ioutil"
 )
 
