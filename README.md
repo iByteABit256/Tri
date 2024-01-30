@@ -31,7 +31,7 @@ Use "tri [command] --help" for more information about a command.
 
 ## Configuration
 
-You can edit the `$HOME/.tri/tricfg.yaml` config file, use the `--config` flag file to use your own
+You can edit the `$HOME/.tri/tricfg.yaml` config file, use the `--config` flag to use your own
 config file instead, or you can override the config file by setting environmental variables:
 
 `export TRI_DATAFILE = "$HOME/input/my-todo-list.json"`
