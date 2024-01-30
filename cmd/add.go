@@ -1,42 +1,41 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
         "fmt"
 
-        "github.com/spf13/cobra"
         "github.com/iByteABit256/tri/todo"
+        "github.com/spf13/cobra"
 )
 
 // addCmd represents the add command
 var addCmd = &cobra.Command{
         Use:   "add",
         Short: "Add a new Todo task",
-        Long: `Add will create a new Todo item in the Todo list`,
-        Run: addRun,
+        Long:  `Add will create a new Todo item in the Todo list`,
+        Run:   addRun,
 }
 
 func addRun(cmd *cobra.Command, args []string) {
-    items := []todo.Item{}
+        items := []todo.Item{}
 
-    for _, x := range args {
-        items = append(items, todo.Item{Text:x})
-        fmt.Printf("%v added to list.\n", x)
-    }
+        for _, x := range args {
+                items = append(items, todo.Item{Text: x})
+                fmt.Printf("%v added to list.\n", x)
+        }
 
-    fmt.Printf("List: %#v\n", items)
+        fmt.Printf("List: %#v\n", items)
 
-    filename := "my-todo-list.json"
+        filename := "my-todo-list.json"
 
-    err := todo.SaveItems(filename, items)
-    if err != nil {
-        fmt.Errorf("%v", err)
-    }
+        err := todo.SaveItems(filename, items)
+        if err != nil {
+                fmt.Errorf("%v", err)
+        }
 
-    fmt.Printf("Saved to %v.\n", filename)
+        fmt.Printf("Saved to %v.\n", filename)
 }
 
 func init() {
