@@ -7,6 +7,7 @@ import (
 
 	"github.com/iByteABit256/tri/todo"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // doneCmd represents the done command
@@ -18,9 +19,9 @@ var doneCmd = &cobra.Command{
 }
 
 func markDone(cmd *cobra.Command, args []string) {
-	items, err := todo.ReadItems(dataFile)
+	items, err := todo.ReadItems(viper.GetString("datafile"))
 	if err != nil {
-		log.Fatalln("%v", err)
+		log.Fatalf("%v\n", err)
 	}
 
 	if len(args) == 0 {
@@ -37,7 +38,7 @@ func markDone(cmd *cobra.Command, args []string) {
 		items[i-1].Done = true
 		log.Printf("%q marked done\n", items[i-1].Text)
 		sort.Sort(todo.ByPri(items))
-		todo.SaveItems(dataFile, items)
+		todo.SaveItems(viper.GetString("datafile"), items)
 	} else {
 		log.Fatalf("%v doesn't match any items\n", i)
 	}
