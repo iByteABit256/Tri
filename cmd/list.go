@@ -1,44 +1,51 @@
-/*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
-        "fmt"
+    "fmt"
+    "log"
+	"os"
+	"text/tabwriter"
+    "sort"
 
-        "github.com/iByteABit256/tri/todo"
-        "github.com/spf13/cobra"
+	"github.com/iByteABit256/tri/todo"
+	"github.com/spf13/cobra"
+)
+
+var (
+    doneOpt bool
+    allOpt  bool
 )
 
 // listCmd represents the list command
 var listCmd = &cobra.Command{
-        Use:   "list",
-        Short: "Lists TODO items",
-        Long:  `Lists every item in the TODO list`,
-        Run:   ListItems,
+	Use:   "list",
+	Short: "Lists TODO items",
+	Long:  `Lists every item in the TODO list`,
+	Run:   listItems,
 }
 
-func ListItems(cmd *cobra.Command, args []string) {
-        filename := "my-todo-list.json"
+func listItems(cmd *cobra.Command, args []string) {
+	items, err := todo.ReadItems(dataFile)
+	if err != nil {
+		log.Fatalf("%v\n", err)
+	}
 
-        items, err := todo.ReadItems(filename)
-        if err != nil {
-                fmt.Errorf("%v", err)
+    sort.Sort(todo.ByPri(items)) 
+
+	w := tabwriter.NewWriter(os.Stdout, 3, 0, 1, ' ', 0)
+
+	for _, i := range items {
+        if allOpt || i.Done == doneOpt {
+            fmt.Fprintln(w, i.Label()+"\t"+i.PrettyP()+"\t"+i.Text+"\t"+i.PrettyDone())
         }
+	}
 
-        fmt.Println(items)
+	w.Flush()
 }
 
 func init() {
-        rootCmd.AddCommand(listCmd)
+	rootCmd.AddCommand(listCmd)
 
-        // Here you will define your flags and configuration settings.
-
-        // Cobra supports Persistent Flags which will work for this command
-        // and all subcommands, e.g.:
-        // listCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-        // Cobra supports local flags which will only run when this command
-        // is called directly, e.g.:
-        // listCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+    listCmd.Flags().BoolVarP(&doneOpt, "done", "d", false, "Show 'Done' tasks")
+    listCmd.Flags().BoolVarP(&allOpt, "all", "a", false, "Show all tasks")
 }

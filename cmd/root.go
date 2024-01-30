@@ -1,22 +1,20 @@
-/*
-Copyright © 2024 Pavlos Smith
-
-*/
 package cmd
 
 import (
 	"os"
+    "log"
 
+	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 )
 
-
+var dataFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "tri",
 	Short: "Tri is a Todo list CLI app",
-	Long: `Tri is designed to make organizing your tasks fast and easy straight through your terminal`,
+	Long:  `Tri is designed to make organizing your tasks fast and easy straight through your terminal`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
@@ -36,11 +34,11 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.tri.yaml)")
+	home, err := homedir.Dir()
+	if err != nil {
+		log.Fatalln("Unable to detect home directory. Please set data file using --datafile.")
+	}
 
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.PersistentFlags().StringVar(&dataFile, "datafile",
+		home+string(os.PathSeparator)+".tridos.json", "data file to store TODOs")
 }
-
-
