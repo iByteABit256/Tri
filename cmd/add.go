@@ -31,9 +31,12 @@ func addRun(cmd *cobra.Command, args []string) {
 
     filename := "my-todo-list.json"
 
-    todo.SaveItems(filename, items)
+    err := todo.SaveItems(filename, items)
+    if err != nil {
+        fmt.Errorf("%v", err)
+    }
 
-    fmt.Printf("Saved to %v.", filename)
+    fmt.Printf("Saved to %v.\n", filename)
 }
 
 func init() {
