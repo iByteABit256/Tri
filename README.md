@@ -9,6 +9,7 @@ A simple TODO list app for the CLI.
 
 ## Usage
 
+```text
 Tri is designed to make organizing your tasks fast and easy straight through your terminal
 
 Usage:
@@ -26,6 +27,7 @@ Flags:
   -h, --help            help for tri
 
 Use "tri [command] --help" for more information about a command.
+```
 
 ## Configuration
 
