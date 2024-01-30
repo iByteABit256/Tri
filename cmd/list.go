@@ -1,19 +1,19 @@
 package cmd
 
 import (
-    "fmt"
-    "log"
+	"fmt"
+	"log"
 	"os"
+	"sort"
 	"text/tabwriter"
-    "sort"
 
 	"github.com/iByteABit256/tri/todo"
 	"github.com/spf13/cobra"
 )
 
 var (
-    doneOpt bool
-    allOpt  bool
+	doneOpt bool
+	allOpt  bool
 )
 
 // listCmd represents the list command
@@ -30,14 +30,14 @@ func listItems(cmd *cobra.Command, args []string) {
 		log.Fatalf("%v\n", err)
 	}
 
-    sort.Sort(todo.ByPri(items)) 
+	sort.Sort(todo.ByPri(items))
 
 	w := tabwriter.NewWriter(os.Stdout, 3, 0, 1, ' ', 0)
 
 	for _, i := range items {
-        if allOpt || i.Done == doneOpt {
-            fmt.Fprintln(w, i.Label()+"\t"+i.PrettyP()+"\t"+i.Text+"\t"+i.PrettyDone())
-        }
+		if allOpt || i.Done == doneOpt {
+			fmt.Fprintln(w, i.Label()+"\t"+i.PrettyP()+"\t"+i.Text+"\t"+i.PrettyDone())
+		}
 	}
 
 	w.Flush()
@@ -46,6 +46,6 @@ func listItems(cmd *cobra.Command, args []string) {
 func init() {
 	rootCmd.AddCommand(listCmd)
 
-    listCmd.Flags().BoolVarP(&doneOpt, "done", "d", false, "Show 'Done' tasks")
-    listCmd.Flags().BoolVarP(&allOpt, "all", "a", false, "Show all tasks")
+	listCmd.Flags().BoolVarP(&doneOpt, "done", "d", false, "Show 'Done' tasks")
+	listCmd.Flags().BoolVarP(&allOpt, "all", "a", false, "Show all tasks")
 }

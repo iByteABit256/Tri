@@ -1,7 +1,7 @@
 package cmd
 
 import (
-    "log"
+	"log"
 
 	"github.com/iByteABit256/tri/todo"
 	"github.com/spf13/cobra"

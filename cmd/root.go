@@ -1,8 +1,8 @@
 package cmd
 
 import (
+	"log"
 	"os"
-    "log"
 
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
